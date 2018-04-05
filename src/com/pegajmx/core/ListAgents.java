@@ -21,6 +21,7 @@ public class ListAgents {
 
 			ObjectName mbeanName = new ObjectName("com.pega.PegaRULES:type=web,name=com.pega.pegarules.management.internal.AgentManagement,id=\"dbaf34ac704df86c8ca832d1a839123f\"");
 			System.out.println(connection.invoke(mbeanName, "AgentStatus" ,new Object[0],new String[0]));
+			jmxConnector.close();  
 		} catch (Exception e) {  
 			System.out.println("Caught exception: " + e);  
 		} 
