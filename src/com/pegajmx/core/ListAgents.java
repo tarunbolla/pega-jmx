@@ -1,5 +1,9 @@
 package com.pegajmx.core;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 import javax.management.ObjectName;
 
 public class ListAgents {
@@ -20,7 +24,13 @@ public class ListAgents {
 			javax.management.MBeanServerConnection connection = jmxConnector.getMBeanServerConnection();  
 
 			ObjectName mbeanName = new ObjectName("com.pega.PegaRULES:type=web,name=com.pega.pegarules.management.internal.AgentManagement,id=\"dbaf34ac704df86c8ca832d1a839123f\"");
-			System.out.println(connection.invoke(mbeanName, "AgentStatus" ,new Object[0],new String[0]));
+			String content = connection.invoke(mbeanName, "AgentStatus" ,new Object[0],new String[0]).toString();
+			jmxConnector.close();
+			
+			File file = new File("output.txt");
+			DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
+			stream.write(content.getBytes());
+			stream.close();
 		} catch (Exception e) {  
 			System.out.println("Caught exception: " + e);  
 		} 
